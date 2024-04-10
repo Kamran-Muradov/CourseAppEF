@@ -18,6 +18,9 @@ EducationController educationController = new();
 GroupController groupController = new();
 
 Console.WriteLine("test");
+Console.WriteLine("test");
+Console.WriteLine("test");
+Console.WriteLine("test");
 
 Top:
 while (!accountController.IsLoggedIn)
