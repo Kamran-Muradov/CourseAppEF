@@ -1,13 +1,24 @@
 ﻿using Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using Repository.Data;
 using Repository.Repositories.Interfaces;
 
 namespace Repository.Repositories
 {
     public class EducationRepository : BaseRepository<Education>, IEducationRepository
     {
-        public Task<List<Education>> SearchByName(string searchText)
+        private readonly AppDbContext _context;
+
+        public EducationRepository()
         {
-            throw new NotImplementedException();
+            _context = new AppDbContext();
+        }
+
+        public async Task<List<Education>> GetAllWithGroupsAsync()
+        {
+            return await _context.Set<Education>()
+                .Include(m => m.Groups)
+                .ToListAsync();
         }
     }
 }

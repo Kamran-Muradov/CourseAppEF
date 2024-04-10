@@ -6,6 +6,7 @@ using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Data;
 using Repository.Repositories;
+using Service.Services;
 
 Console.WriteLine();
 
@@ -17,7 +18,7 @@ bool Test(string email)
     return Regex.IsMatch(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
 }
 
-EducationRepository repository= new EducationRepository();
+EducationService repository= new EducationService();
 
 //await repository.CreateAsync(new Education
 //{
@@ -26,12 +27,8 @@ EducationRepository repository= new EducationRepository();
 //    CreatedDate = DateTime.Now
 //});
 
-var educations =  repository.GetAll().Include(m=>m.Groups).Select(m=>new Education
-{
-    Name = m.Name,
-    Color = m.Color,
-    Groups = m.Groups
-});
+var educations = await repository.SearchByName("k");
+
 
 
 
@@ -39,7 +36,7 @@ var educations =  repository.GetAll().Include(m=>m.Groups).Select(m=>new Educati
 
 foreach (var education in educations)
 {
-    Console.WriteLine(education.Name+"-"+string.Join(", ",education.Groups));
+    Console.WriteLine(education.Name+"-");
 }
 
 //await repository.UpdateAsync(new Education

@@ -11,6 +11,7 @@ namespace Service.Services.Interfaces
         Task<List<EducationDTo>> GetAllAsync();
         Task<List<EducationWithGroupsDTo>> GetAllWithGroupsAsync();
         Task<List<EducationDTo>> SortWithCreatedDate(string sortCondition);
+        Task<List<EducationDTo>> SearchByName(string searchText);
         Task<EducationDTo> GetByIdAsync(int? id);
     }
 }

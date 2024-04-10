@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore;
 using Repository.Repositories;
 using Repository.Repositories.Interfaces;
 using Service.DTOs.Educations;
@@ -43,44 +42,64 @@ namespace Service.Services
 
         public async Task<List<EducationDTo>> GetAllAsync()
         {
-            return await _educationRepository.GetAll()
-                .Select(m => new EducationDTo
-                {
-                    Name = m.Name,
-                    Color = m.Color
-                }).ToListAsync();
+            var datas = await _educationRepository.GetAllAsync();
+
+            return datas.Select(m => new EducationDTo
+            {
+                Name = m.Name,
+                Color = m.Color
+            })
+                .ToList();
         }
 
         public async Task<List<EducationWithGroupsDTo>> GetAllWithGroupsAsync()
         {
-            return await _educationRepository.GetAll()
-                .Include(m => m.Groups)
-                .Select(m => new EducationWithGroupsDTo
-                {
-                    Education = m.Name,
-                    Groups = m.Groups.Select(m => m.Name).ToList()
-                }).ToListAsync();
+            var datas = await _educationRepository.GetAllWithGroupsAsync();
+
+            return datas.Select(m => new EducationWithGroupsDTo
+            {
+                Education = m.Name,
+                Groups = m.Groups.Select(m => m.Name).ToList()
+            })
+                .ToList();
         }
 
         public async Task<List<EducationDTo>> SortWithCreatedDate(string sortCondition)
         {
-            var datas = await _educationRepository.GetAll()
-                .Select(m => new EducationDTo
-                {
-                    Name = m.Name,
-                    Color = m.Color,
-                    CreatedDate = m.CreatedDate
-                }).ToListAsync();
+            var datas = await _educationRepository.GetAllAsync();
+
+            var educations = datas.Select(m => new EducationDTo
+            {
+                Name = m.Name,
+                Color = m.Color,
+                CreatedDate = m.CreatedDate
+            })
+                .ToList();
 
             switch (sortCondition)
             {
                 case "asc":
-                    return datas.OrderBy(m => m.CreatedDate).ToList();
+                    return educations.OrderBy(m => m.CreatedDate).ToList();
                 case "desc":
-                    return datas.OrderByDescending(m => m.CreatedDate).ToList();
+                    return educations.OrderByDescending(m => m.CreatedDate).ToList();
                 default:
                     throw new FormatException(ResponseMessages.InvalidSortingFormat);
             }
+        }
+
+        public async Task<List<EducationDTo>> SearchByName(string searchText)
+        {
+            var datas = await _educationRepository.GetAllAsync();
+
+            return datas
+            .Where(m => m.Name.ToLower().Contains(searchText.ToLower()))
+            .Select(m => new EducationDTo
+            {
+                Name = m.Name,
+                Color = m.Color,
+                CreatedDate = m.CreatedDate
+            })
+            .ToList();
         }
 
         public async Task<EducationDTo> GetByIdAsync(int? id)

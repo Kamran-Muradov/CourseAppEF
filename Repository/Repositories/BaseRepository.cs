@@ -32,10 +32,17 @@ namespace Repository.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public IQueryable<T> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
-            return _context.Set<T>();
+            return await _context.Set<T>().ToListAsync();
         }
+
+        //public async Task<List<T>> GetAllWithExpression(Func<T, bool> predicate)
+        //{
+        //    var datas = await _context.Set<T>().ToListAsync();
+
+        //    return datas.Where(predicate).ToList();
+        //}
 
         public async Task<T> GetByIdAsync(int? id)
         {
