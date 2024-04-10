@@ -44,11 +44,12 @@ namespace Service.Services
         {
             var datas = await _educationRepository.GetAllAsync();
 
-            return datas.Select(m => new EducationDTo
+            if (datas.Count == 0)
             {
-                Name = m.Name,
-                Color = m.Color
-            })
+                throw new NotFoundException(ResponseMessages.DataNotFound);
+            }
+
+            return datas.Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
                 .ToList();
         }
 
@@ -56,24 +57,25 @@ namespace Service.Services
         {
             var datas = await _educationRepository.GetAllWithGroupsAsync();
 
-            return datas.Select(m => new EducationWithGroupsDTo
+            if (datas.Count == 0)
             {
+                throw new NotFoundException(ResponseMessages.DataNotFound);
+            }
+
+            return datas.Select(m => new EducationWithGroupsDTo {
                 Education = m.Name,
                 Groups = m.Groups.Select(m => m.Name).ToList()
             })
                 .ToList();
         }
 
-        public async Task<List<EducationDTo>> SortWithCreatedDate(string sortCondition)
+        public async Task<List<EducationDTo>> SortWithCreatedDateAsync(string sortCondition)
         {
+            ArgumentNullException.ThrowIfNull(sortCondition);
+
             var datas = await _educationRepository.GetAllAsync();
 
-            var educations = datas.Select(m => new EducationDTo
-            {
-                Name = m.Name,
-                Color = m.Color,
-                CreatedDate = m.CreatedDate
-            })
+            var educations = datas.Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
                 .ToList();
 
             switch (sortCondition)
@@ -87,19 +89,23 @@ namespace Service.Services
             }
         }
 
-        public async Task<List<EducationDTo>> SearchByName(string searchText)
+        public async Task<List<EducationDTo>> SearchByNameAsync(string searchText)
         {
+            ArgumentNullException.ThrowIfNull(searchText);
+
             var datas = await _educationRepository.GetAllAsync();
 
-            return datas
+            var foundEducations= datas
             .Where(m => m.Name.ToLower().Contains(searchText.ToLower()))
-            .Select(m => new EducationDTo
-            {
-                Name = m.Name,
-                Color = m.Color,
-                CreatedDate = m.CreatedDate
-            })
+            .Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
             .ToList();
+
+            if (foundEducations.Count == 0)
+            {
+                throw new NotFoundException(ResponseMessages.DataNotFound);
+            }
+
+            return foundEducations;
         }
 
         public async Task<EducationDTo> GetByIdAsync(int? id)
@@ -108,11 +114,7 @@ namespace Service.Services
 
             var data = await _educationRepository.GetByIdAsync(id) ?? throw new NotFoundException(ResponseMessages.DataNotFound);
 
-            return new EducationDTo
-            {
-                Name = data.Name,
-                Color = data.Color,
-            };
+            return new EducationDTo { Name = data.Name, Color = data.Color, CreatedDate = data.CreatedDate };
         }
     }
 }

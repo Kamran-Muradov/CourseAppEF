@@ -27,7 +27,7 @@ EducationService repository= new EducationService();
 //    CreatedDate = DateTime.Now
 //});
 
-var educations = await repository.SearchByName("k");
+var educations = await repository.GetAllWithGroupsAsync();
 
 
 
@@ -36,7 +36,7 @@ var educations = await repository.SearchByName("k");
 
 foreach (var education in educations)
 {
-    Console.WriteLine(education.Name+"-");
+    Console.WriteLine(education.Education+"-"+string.Join(", ",education.Groups));
 }
 
 //await repository.UpdateAsync(new Education

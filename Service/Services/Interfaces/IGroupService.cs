@@ -1,5 +1,5 @@
 ﻿using Domain.Models;
-using Service.DTOs.Educations;
+using Service.DTOs.Groups;
 
 namespace Service.Services.Interfaces
 {
@@ -8,8 +8,11 @@ namespace Service.Services.Interfaces
         Task CreateAsync(Group group);
         Task UpdateAsync(Group group);
         Task DeleteAsync(int? id);
-        Task<List<EducationDTo>> GetAllAsync();
-        Task<EducationDTo> GetByIdAsync(int? id);
-
+        Task<List<GroupDTo>> GetAllAsync();
+        Task<List<GroupDTo>> GetAllWithEducationIdAsync(int? id);
+        Task<List<GroupDTo>> FilterByEducationNameAsync(string name);
+        Task<List<GroupDTo>> SearchByNameAsync(string searchText);
+        Task<List<GroupDTo>> SortWithCapacityAsync(string sortCondition);
+        Task<GroupDTo> GetByIdAsync(int? id);
     }
 }
