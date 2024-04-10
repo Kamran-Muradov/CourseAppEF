@@ -1,7 +1,11 @@
-﻿namespace Repository.Repositories.Interfaces
+﻿using Domain.Models;
+
+namespace Repository.Repositories.Interfaces
 {
-    public interface IGroupRepository
+    public interface IGroupRepository : IBaseRepository<Group>
     {
+        Task<List<Group>> GetAllWithEducationIdAsync(int? id);
+        Task<List<Group>> FilterByEducationNameAsync(string name);
 
     }
 }
