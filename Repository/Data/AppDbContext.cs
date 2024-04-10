@@ -12,7 +12,14 @@ namespace Repository.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Data Source=DESKTOP-7GHJ7SJ\\SQLEXPRESS;Database=CourseAppEFDb;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+                "Data Source=DESKTOP-7GHJ7SJ\\SQLEXPRESS;" +
+                "Database=CourseAppEFDb;" +
+                "Integrated Security=True;" +
+                "Connect Timeout=30;" +
+                "Encrypt=True;" +
+                "Trust Server Certificate=True;" +
+                "Application Intent=ReadWrite;" +
+                "Multi Subnet Failover=False");
         }
     }
 }
