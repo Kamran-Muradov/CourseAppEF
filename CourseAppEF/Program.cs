@@ -20,150 +20,137 @@ AnsiConsole.Write(
 
 EducationController educationController = new();
 
-//await educationController.DeleteAsync();
-
-//await educationController.GetAllAsync();
-
-//await educationController.GetAllWithGroupsAsync();
-
-//await educationController.GetByIdAsync();
-
-//await educationController.UpdateAsync();
-
-//await educationController.SortWithCreateDateAsync();
-
-//await educationController.SearchByNameAsync();
-
-await educationController.CreateAsync();
+GroupController groupController = new();
 
 
 
-//while (true)
-//{
-//Operation: ShowMenu();
-//    string operationStr = Console.ReadLine();
+while (true)
+{
+Operation: ShowMenu();
+    string operationStr = Console.ReadLine();
 
-//    int operation;
+    int operation;
 
-//    bool isCorrectOperationFormat = int.TryParse(operationStr, out operation);
+    bool isCorrectOperationFormat = int.TryParse(operationStr, out operation);
 
-//    if (isCorrectOperationFormat)
-//    {
-//        switch (operation)
-//        {
-//            case (int)OperationType.CreateGroup:
-//                groupController.Create();
-//                break;
+    if (isCorrectOperationFormat)
+    {
+        switch (operation)
+        {
+            case (int)OperationType.CreateEducation:
+                await educationController.CreateAsync();
+                break;
 
-//            case (int)OperationType.UpdateGroup:
-//                groupController.UpdateAsync();
-//                break;
+            case (int)OperationType.UpdateEducation:
+                await educationController.UpdateAsync();
+                break;
 
-//            case (int)OperationType.DeleteGroup:
-//                groupController.Delete();
-//                break;
+            case (int)OperationType.DeleteEducation:
+                await educationController.DeleteAsync();
+                break;
 
-//            case (int)OperationType.GetAllGroups:
-//                groupController.GetAll();
-//                break;
+            case (int)OperationType.GetAllEducations:
+                await educationController.GetAllAsync();
+                break;
 
-//            case (int)OperationType.GetAllGroupsByTeacher:
-//                groupController.GetAllByTeacher();
-//                break;
+            case (int)OperationType.GetAllEducationsWithGroups:
+                await educationController.GetAllWithGroupsAsync();
+                break;
 
-//            case (int)OperationType.GetAllGroupsByRoom:
-//                groupController.GetAllByRoom();
-//                break;
+            case (int)OperationType.GetEducationById:
+                await educationController.GetByIdAsync();
+                break;
 
-//            case (int)OperationType.GetGroupById:
-//                groupController.GetById();
-//                break;
+            case (int)OperationType.SortEducationsWithCreatedDate:
+                await educationController.SortWithCreateDateAsync();
+                break;
 
-//            case (int)OperationType.SearchGroupsByName:
-//                groupController.SearchByName();
-//                break;
+            case (int)OperationType.SearchEducationsByName:
+                await educationController.SearchByNameAsync();
+                break;
 
-//            case (int)OperationType.CreateStudent:
-//                studentController.Create();
-//                break;
+            case (int)OperationType.CreateGroup:
+                await groupController.CreateAsync();
+                break;
 
-//            case (int)OperationType.UpdateStudent:
-//                studentController.UpdateAsync();
-//                break;
+            case (int)OperationType.UpdateGroup:
+                await groupController.UpdateAsync();
+                break;
 
-//            case (int)OperationType.DeleteStudent:
-//                studentController.Delete();
-//                break;
+            case (int)OperationType.DeleteGroup:
+                await groupController.DeleteAsync();
+                break;
 
-//            case (int)OperationType.GetAllStudents:
-//                studentController.GetAll();
-//                break;
+            case (int)OperationType.GetAllGroups:
+                await groupController.GetAllAsync();
+                break;
 
-//            case (int)OperationType.GetAllStudentsByAge:
-//                studentController.GetAllByAge();
-//                break;
+            case (int)OperationType.GetAllGroupsWithEducationId:
+                await groupController.GetAllWithEducationId();
+                break;
 
-//            case (int)OperationType.GetAllStudentsByGroupId:
-//                studentController.GetAllByGroupId();
-//                break;
+            case (int)OperationType.GetGroupById:
+                await groupController.GetByIdAsync();
+                break;
 
-//            case (int)OperationType.GetStudentById:
-//                studentController.GetById();
-//                break;
+            case (int)OperationType.FilterGroupsByEducationName:
+                await groupController.FilterByEducationName();
+                break;
 
-//            case (int)OperationType.SearchStudentsByNameOrSurname:
-//                studentController.SearchByNameOrSurname();
-//                break;
+            case (int)OperationType.SortGroupsWithCapacity:
+                await groupController.SortWithCapacity();
+                break;
 
-//            case 0:
-//                Console.WriteLine("Are you sure? (Press 'Y' for yes, 'N' for no)");
-//            ExitChoice: string exitChoice = Console.ReadLine().Trim().ToLower();
+            case (int)OperationType.SearchGroupsByName:
+                await groupController.SearchByNameAsync();
+                break;
 
-//                if (exitChoice == "n")
-//                {
-//                    goto Operation;
-//                }
-//                else if (exitChoice == "y")
-//                {
-//                    Environment.Exit(0);
-//                }
-//                else
-//                {
-//                    ConsoleColor.Red.WriteConsole("Wrong operation. Please try again:");
-//                    goto ExitChoice;
-//                }
-//                break;
+            case 0:
+                Console.WriteLine("Are you sure? (Press 'Y' for yes, 'N' for no)");
+            ExitChoice: string exitChoice = Console.ReadLine().Trim().ToLower();
 
-//            default:
-//                ConsoleColor.Red.WriteConsole("Operation is wrong, please try again");
-//                goto Operation;
-//        }
-//    }
-//    else
-//    {
-//        ConsoleColor.Red.WriteConsole("Operation format is wrong, try again:");
-//        goto Operation;
-//    }
-////}
+                switch (exitChoice)
+                {
+                    case "n":
+                        goto Operation;
+                    case "y":
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        ConsoleColor.Red.WriteConsole("Wrong operation. Please try again:");
+                        goto ExitChoice;
+                }
+                break;
+
+            default:
+                ConsoleColor.Red.WriteConsole("Operation is wrong, please try again");
+                goto Operation;
+        }
+    }
+    else
+    {
+        ConsoleColor.Red.WriteConsole("Operation format is wrong, try again:");
+        goto Operation;
+    }
+}
 
 static void ShowMenu()
 {
     ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
-        "+--------------------------------------" + "-----------------------------------------+\n" +
-        "| Education operations                |" + " Group operations                        |\n" +
-        "|-------------------------------------|" + "-----------------------------------------|\n" +
-        "| 1. Create education                 |" + "  9. Create student                      |\n" +
-        "| 2. Update education                 |" + " 10. UpdateAsync student                 |\n" +
-        "| 3. Delete education                 |" + " 11. Delete student                      |\n" +
-        "| 4. Show all educations              |" + " 12. Show all students                   |\n" +
-        "| 5. Show all educations with groups  |" + " 13. Show all students by age            |\n" +
-        "| 6. Show education by id             |" + " 14. Show all students by group id       |\n" +
-        "| 7. Sort educations by create date   |" + " 15. Show student by id                  |\n" +
-        "| 8. Search educations by name        |" + " 16. Search students by name or surname  |\n" +
-        "+------------------------------------------------------------------------------------+\n\n" +
-        "0. Exit");
+                                   "+--------------------------------------" + "-----------------------------------------+\n" +
+                                   "| Education operations                |" + " Group operations                        |\n" +
+                                   "|-------------------------------------|" + "-----------------------------------------|\n" +
+                                   "| 1. Create education                 |" + "  9. Create group                        |\n" +
+                                   "| 2. Update education                 |" + " 10. Update group                        |\n" +
+                                   "| 3. Delete education                 |" + " 11. Delete group                        |\n" +
+                                   "| 4. Show all educations              |" + " 12. Show all groups                     |\n" +
+                                   "| 5. Show all educations with groups  |" + " 13. Show all groups by education id     |\n" +
+                                   "| 6. Show education by id             |" + " 14. Show group by id                    |\n" +
+                                   "| 7. Sort educations by create date   |" + " 15. Filter groups by education name     |\n" +
+                                   "| 8. Search educations by name        |" + " 16. Sort groups by capacity             |\n" +
+                                   "| 0. Exit                             |" + " 17. Search groups by name               |\n" +
+                                   "+-------------------------------------------------------------------------------+");
 }
-
 
 
 

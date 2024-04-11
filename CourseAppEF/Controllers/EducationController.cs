@@ -26,7 +26,7 @@ namespace CourseAppEF.Controllers
             try
             {
                 var allEducations = await _educationService.GetAllAsync();
-               
+
                 ConsoleColor.Yellow.WriteConsole("Enter name: (Press Enter to cancel)");
             Name:
                 string name = Console.ReadLine().Trim();
@@ -81,19 +81,9 @@ namespace CourseAppEF.Controllers
 
                 ConsoleColor.Yellow.WriteConsole("Educations:");
 
-                var table = new ConsoleTable("Id", "Name", "Color");
+                allEducations.PrintAllWithId();
 
-                foreach (var item in allEducations)
-                {
-                    table.AddRow(item.Id, item.Name, item.Color);
-                }
-
-                table.Options.EnableCount = false;
-
-                table.Write();
-
-                ConsoleColor.Yellow.WriteConsole(
-                    "Enter id of the education you want to update: (Press Enter to cancel)");
+                ConsoleColor.Yellow.WriteConsole("Enter id of the education you want to update: (Press Enter to cancel)");
             Id:
                 string idStr = Console.ReadLine();
 
@@ -153,16 +143,7 @@ namespace CourseAppEF.Controllers
 
                 ConsoleColor.Yellow.WriteConsole("Educations:");
 
-                var table = new ConsoleTable("Id", "Name", "Color");
-
-                foreach (var item in allEducations)
-                {
-                    table.AddRow(item.Id, item.Name, item.Color);
-                }
-
-                table.Options.EnableCount = false;
-
-                table.Write();
+                allEducations.PrintAllWithId();
 
                 ConsoleColor.Yellow.WriteConsole("Enter id of the education you want to delete: (Press Enter to cancel)");
             Id: string idStr = Console.ReadLine();
@@ -186,7 +167,6 @@ namespace CourseAppEF.Controllers
                     ConsoleColor.Red.WriteConsole("Id cannot be less than 1. Please try again:");
                     goto Id;
                 }
-
 
                 if (allEducations.All(m => m.Id != id))
                 {
@@ -338,7 +318,7 @@ namespace CourseAppEF.Controllers
                     return;
                 }
 
-                Console.WriteLine("Enter sorting condition ('asc' or 'desc')");
+                ConsoleColor.Yellow.WriteConsole("Enter sorting condition ('asc' or 'desc')");
             SortCondition: string sortCondition = Console.ReadLine().Trim().ToLower();
 
                 if (string.IsNullOrEmpty(sortCondition))
@@ -357,7 +337,7 @@ namespace CourseAppEF.Controllers
                         response = await _educationService.SortWithCreatedDateAsync(sortCondition);
                         break;
                     default:
-                        ConsoleColor.Red.WriteConsole("Wrong operation. Please try again");
+                        ConsoleColor.Red.WriteConsole(ResponseMessages.InvalidSortingFormat + ". Please try again:");
                         goto SortCondition;
                 }
 

@@ -17,16 +17,33 @@ namespace Service.Services
             _groupRepository = new GroupRepository();
         }
 
-        public async Task CreateAsync(Group group)
+        public async Task CreateAsync(Group data)
         {
-            ArgumentNullException.ThrowIfNull(group);
+            ArgumentNullException.ThrowIfNull(data);
 
-            await _groupRepository.CreateAsync(group);
+            await _groupRepository.CreateAsync(data);
         }
 
-        public async Task UpdateAsync(Group group)
+        public async Task UpdateAsync(Group data)
         {
-            ArgumentNullException.ThrowIfNull(group);
+            ArgumentNullException.ThrowIfNull(data);
+
+            Group group = await _groupRepository.GetByIdAsync(data.Id) ?? throw new NotFoundException(ResponseMessages.DataNotFound);
+
+            if (!string.IsNullOrEmpty(data.Name))
+            {
+                group.Name = data.Name;
+            }
+
+            if (data.Capacity > 0)
+            {
+                group.Capacity = data.Capacity;
+            }
+
+            if (data.EducationId > 0)
+            {
+                group.EducationId = data.EducationId;
+            }
 
             await _groupRepository.UpdateAsync(group);
         }
@@ -44,7 +61,13 @@ namespace Service.Services
         {
             var datas = await _groupRepository.GetAllAsync();
 
-            return datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity }).ToList();
+            return datas.Select(m => new GroupDTo
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Capacity = m.Capacity,
+                EducationId = m.EducationId
+            }).ToList();
         }
 
         public async Task<List<GroupDTo>> GetAllWithEducationIdAsync(int? id)
@@ -53,7 +76,12 @@ namespace Service.Services
 
             var datas = await _groupRepository.GetAllWithEducationIdAsync(id);
 
-            return datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity }).ToList();
+            return datas.Select(m => new GroupDTo
+            {
+                Name = m.Name,
+                Capacity = m.Capacity,
+                EducationId = m.EducationId
+            }).ToList();
         }
 
         public async Task<List<GroupDTo>> FilterByEducationNameAsync(string name)
@@ -62,7 +90,12 @@ namespace Service.Services
 
             var datas = await _groupRepository.FilterByEducationNameAsync(name);
 
-            return datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity }).ToList();
+            return datas.Select(m => new GroupDTo
+            {
+                Name = m.Name,
+                Capacity = m.Capacity,
+                EducationId = m.EducationId
+            }).ToList();
         }
 
         public async Task<List<GroupDTo>> SearchByNameAsync(string searchText)
@@ -73,7 +106,12 @@ namespace Service.Services
 
             var foundGroups = datas
                 .Where(m => m.Name.ToLower().Contains(searchText.ToLower()))
-                .Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity })
+                .Select(m => new GroupDTo
+                {
+                    Name = m.Name,
+                    Capacity = m.Capacity,
+                    EducationId = m.EducationId
+                })
                 .ToList();
 
             return foundGroups;
@@ -85,8 +123,12 @@ namespace Service.Services
 
             var datas = await _groupRepository.GetAllAsync();
 
-            var groups = datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity })
-                .ToList();
+            var groups = datas.Select(m => new GroupDTo
+            {
+                Name = m.Name,
+                Capacity = m.Capacity,
+                EducationId = m.EducationId
+            }).ToList();
 
             switch (sortCondition)
             {
@@ -105,7 +147,12 @@ namespace Service.Services
 
             var data = await _groupRepository.GetByIdAsync(id) ?? throw new NotFoundException(ResponseMessages.DataNotFound);
 
-            return new GroupDTo { Name = data.Name, Capacity = data.Capacity };
+            return new GroupDTo
+            {
+                Name = data.Name,
+                Capacity = data.Capacity,
+                EducationId = data.EducationId
+            };
         }
     }
 }
