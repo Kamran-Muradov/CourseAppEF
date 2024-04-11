@@ -25,8 +25,8 @@ namespace Service.Services
         {
             var datas = await _userRepository.GetAllAsync();
 
-            return datas.Any(m => m.UserName.ToLower() == usernameOrEmail.ToLower() ||
-                                  m.Email.ToLower() == usernameOrEmail.ToLower() && m.Password == password);
+            return datas.Any(m => (m.UserName.ToLower() == usernameOrEmail.ToLower() || m.Email.ToLower() == usernameOrEmail.ToLower())
+                                  && m.Password == password);
         }
     }
 }

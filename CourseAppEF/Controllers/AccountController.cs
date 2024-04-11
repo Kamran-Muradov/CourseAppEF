@@ -14,7 +14,7 @@ namespace CourseAppEF.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
-        public static bool IsLoggedIn { get; private set; }
+        public static bool IsLoggedIn { get; set; }
 
         public AccountController()
         {
@@ -130,7 +130,7 @@ namespace CourseAppEF.Controllers
 
             if (string.IsNullOrEmpty(userNameOrEmail))
             {
-               return;
+                return;
             }
 
             ConsoleColor.Yellow.WriteConsole("Enter password:");

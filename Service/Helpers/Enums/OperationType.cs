@@ -2,7 +2,7 @@
 {
     public enum OperationType
     {
-        Exit,
+        Logout,
         CreateEducation,
         UpdateEducation,
         DeleteEducation,
@@ -20,6 +20,5 @@
         FilterGroupsByEducationName,
         SortGroupsWithCapacity,
         SearchGroupsByName,
-        
     }
 }
