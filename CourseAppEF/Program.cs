@@ -22,8 +22,6 @@ EducationController educationController = new();
 
 GroupController groupController = new();
 
-
-
 while (true)
 {
 Operation: ShowMenu();
