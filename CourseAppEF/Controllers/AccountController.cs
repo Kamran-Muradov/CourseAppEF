@@ -122,5 +122,45 @@ namespace CourseAppEF.Controllers
                 ConsoleColor.Red.WriteConsole(ex.Message);
             }
         }
+
+        public async Task LoginAsync()
+        {
+            ConsoleColor.Yellow.WriteConsole("Enter username or email (Press Enter to cancel):");
+        UserNameOrEmail: string userNameOrEmail = Console.ReadLine().Trim();
+
+            if (string.IsNullOrEmpty(userNameOrEmail))
+            {
+               return;
+            }
+
+            ConsoleColor.Yellow.WriteConsole("Enter password:");
+        Password: string password = Console.ReadLine().Trim();
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ConsoleColor.Red.WriteConsole("Password is required");
+                goto Password;
+            }
+
+            try
+            {
+                var checkLogin = await _accountService.LoginAsync(userNameOrEmail, password);
+
+                if (checkLogin)
+                {
+                    IsLoggedIn = true;
+                    ConsoleColor.Green.WriteConsole("Login success");
+                }
+                else
+                {
+                    ConsoleColor.Red.WriteConsole("Login failed");
+                    goto UserNameOrEmail;
+                }
+            }
+            catch (Exception ex)
+            {
+                ConsoleColor.Red.WriteConsole(ex.Message);
+            }
+        }
     }
 }
