@@ -1,6 +1,8 @@
-﻿namespace Repository.Repositories.Interfaces
+﻿using Domain.Models;
+
+namespace Repository.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
     }
 }
