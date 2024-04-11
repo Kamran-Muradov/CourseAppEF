@@ -17,16 +17,28 @@ namespace Service.Services
             _educationRepository = new EducationRepository();
         }
 
-        public async Task CreateAsync(Education education)
+        public async Task CreateAsync(Education data)
         {
-            ArgumentNullException.ThrowIfNull(education);
+            ArgumentNullException.ThrowIfNull(data);
 
-            await _educationRepository.CreateAsync(education);
+            await _educationRepository.CreateAsync(data);
         }
 
-        public async Task UpdateAsync(Education education)
+        public async Task UpdateAsync(Education data)
         {
-            ArgumentNullException.ThrowIfNull(education);
+            ArgumentNullException.ThrowIfNull(data);
+
+            Education education = await _educationRepository.GetByIdAsync(data.Id) ?? throw new NotFoundException(ResponseMessages.DataNotFound);
+
+            if (!string.IsNullOrEmpty(data.Name))
+            {
+                education.Name = data.Name;
+            }
+
+            if (!string.IsNullOrEmpty(data.Color))
+            {
+                education.Color = data.Color;
+            }
 
             await _educationRepository.UpdateAsync(education);
         }
@@ -44,12 +56,7 @@ namespace Service.Services
         {
             var datas = await _educationRepository.GetAllAsync();
 
-            if (datas.Count == 0)
-            {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
-
-            return datas.Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
+            return datas.Select(m => new EducationDTo { Id = m.Id, Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
                 .ToList();
         }
 
@@ -57,12 +64,8 @@ namespace Service.Services
         {
             var datas = await _educationRepository.GetAllWithGroupsAsync();
 
-            if (datas.Count == 0)
+            return datas.Select(m => new EducationWithGroupsDTo
             {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
-
-            return datas.Select(m => new EducationWithGroupsDTo {
                 Education = m.Name,
                 Groups = m.Groups.Select(m => m.Name).ToList()
             })
@@ -95,15 +98,10 @@ namespace Service.Services
 
             var datas = await _educationRepository.GetAllAsync();
 
-            var foundEducations= datas
+            var foundEducations = datas
             .Where(m => m.Name.ToLower().Contains(searchText.ToLower()))
             .Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
             .ToList();
-
-            if (foundEducations.Count == 0)
-            {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
 
             return foundEducations;
         }

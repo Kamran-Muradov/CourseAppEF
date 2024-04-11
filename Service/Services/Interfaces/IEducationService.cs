@@ -5,8 +5,8 @@ namespace Service.Services.Interfaces
 {
     public interface IEducationService
     {
-        Task CreateAsync(Education  education);
-        Task UpdateAsync(Education education);
+        Task CreateAsync(Education  data);
+        Task UpdateAsync(Education data);
         Task DeleteAsync(int? id);
         Task<List<EducationDTo>> GetAllAsync();
         Task<List<EducationWithGroupsDTo>> GetAllWithGroupsAsync();

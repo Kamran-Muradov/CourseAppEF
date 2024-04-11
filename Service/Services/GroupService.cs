@@ -44,11 +44,6 @@ namespace Service.Services
         {
             var datas = await _groupRepository.GetAllAsync();
 
-            if (datas.Count == 0)
-            {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
-
             return datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity }).ToList();
         }
 
@@ -58,11 +53,6 @@ namespace Service.Services
 
             var datas = await _groupRepository.GetAllWithEducationIdAsync(id);
 
-            if (datas.Count == 0)
-            {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
-
             return datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity }).ToList();
         }
 
@@ -71,11 +61,6 @@ namespace Service.Services
             ArgumentNullException.ThrowIfNull(name);
 
             var datas = await _groupRepository.FilterByEducationNameAsync(name);
-
-            if (datas.Count == 0)
-            {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
 
             return datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity }).ToList();
         }
@@ -91,11 +76,6 @@ namespace Service.Services
                 .Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity })
                 .ToList();
 
-            if (foundGroups.Count == 0)
-            {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
-
             return foundGroups;
         }
 
@@ -104,11 +84,6 @@ namespace Service.Services
             ArgumentNullException.ThrowIfNull(sortCondition);
 
             var datas = await _groupRepository.GetAllAsync();
-
-            if (datas.Count == 0)
-            {
-                throw new NotFoundException(ResponseMessages.DataNotFound);
-            }
 
             var groups = datas.Select(m => new GroupDTo { Name = m.Name, Capacity = m.Capacity })
                 .ToList();

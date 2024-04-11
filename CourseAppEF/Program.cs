@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using CourseAppEF.Controllers;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Data;
@@ -10,11 +11,32 @@ using Service.Helpers.Enums;
 using Service.Helpers.Extensions;
 using Service.Services;
 using Spectre.Console;
+using Group = Domain.Models.Group;
 
 AnsiConsole.Write(
     new FigletText("WELCOME")
         .Centered()
         .Color(Color.DarkOliveGreen1));
+
+EducationController educationController = new();
+
+//await educationController.DeleteAsync();
+
+//await educationController.GetAllAsync();
+
+//await educationController.GetAllWithGroupsAsync();
+
+//await educationController.GetByIdAsync();
+
+//await educationController.UpdateAsync();
+
+//await educationController.SortWithCreateDateAsync();
+
+//await educationController.SearchByNameAsync();
+
+await educationController.CreateAsync();
+
+
 
 //while (true)
 //{
@@ -34,7 +56,7 @@ AnsiConsole.Write(
 //                break;
 
 //            case (int)OperationType.UpdateGroup:
-//                groupController.Update();
+//                groupController.UpdateAsync();
 //                break;
 
 //            case (int)OperationType.DeleteGroup:
@@ -66,7 +88,7 @@ AnsiConsole.Write(
 //                break;
 
 //            case (int)OperationType.UpdateStudent:
-//                studentController.Update();
+//                studentController.UpdateAsync();
 //                break;
 
 //            case (int)OperationType.DeleteStudent:
@@ -127,18 +149,18 @@ AnsiConsole.Write(
 static void ShowMenu()
 {
     ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
-        "+-----------------------------------" + "-----------------------------------------+\n" +
-        "| Education operations             |" + " Group operations                        |\n" +
-        "|----------------------------------|" + "-----------------------------------------|\n" +
-        "| 1. Create group                  |" + "  9. Create student                      |\n" +
-        "| 2. Update group                  |" + " 10. Update student                      |\n" +
-        "| 3. Delete group                  |" + " 11. Delete student                      |\n" +
-        "| 4. Show all groups               |" + " 12. Show all students                   |\n" +
-        "| 5. Show all groups by teacher    |" + " 13. Show all students by age            |\n" +
-        "| 6. Show all groups by room       |" + " 14. Show all students by group id       |\n" +
-        "| 7. Show group by id              |" + " 15. Show student by id                  |\n" +
-        "| 8. Search groups by name         |" + " 16. Search students by name or surname  |\n" +
-        "+----------------------------------------------------------------------------+\n\n" +
+        "+--------------------------------------" + "-----------------------------------------+\n" +
+        "| Education operations                |" + " Group operations                        |\n" +
+        "|-------------------------------------|" + "-----------------------------------------|\n" +
+        "| 1. Create education                 |" + "  9. Create student                      |\n" +
+        "| 2. Update education                 |" + " 10. UpdateAsync student                 |\n" +
+        "| 3. Delete education                 |" + " 11. Delete student                      |\n" +
+        "| 4. Show all educations              |" + " 12. Show all students                   |\n" +
+        "| 5. Show all educations with groups  |" + " 13. Show all students by age            |\n" +
+        "| 6. Show education by id             |" + " 14. Show all students by group id       |\n" +
+        "| 7. Sort educations by create date   |" + " 15. Show student by id                  |\n" +
+        "| 8. Search educations by name        |" + " 16. Search students by name or surname  |\n" +
+        "+------------------------------------------------------------------------------------+\n\n" +
         "0. Exit");
 }
 
@@ -151,10 +173,30 @@ string email = "kamran@code.edu.az";
 
 bool Test(string email)
 {
-    return Regex.IsMatch(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+    return Regex.IsMatch(email, @"^[a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
 }
 
-EducationService repository= new EducationService();
+//Console.WriteLine(Test(email));
+EducationService repository = new EducationService();
+
+GroupService groupService = new GroupService();
+
+//await groupService.CreateAsync(new Group
+//{
+//    Name = "P167",
+//    Capacity = 40,
+//    CreatedDate = DateTime.Now,
+//    EducationId = 15
+//});
+
+
+//await repository.CreateAsync(new Education
+//{
+//    Name = "Digital Marketing",
+//    Color = "Red",
+//    CreatedDate = DateTime.Now
+//});
+
 
 //await repository.CreateAsync(new Education
 //{
@@ -163,11 +205,14 @@ EducationService repository= new EducationService();
 //    CreatedDate = DateTime.Now
 //});
 
-var educations = await repository.GetAllWithGroupsAsync();
+//var educations = await repository.GetAllAsync();
 
 
 
-
+//foreach (var educationDTo in educations)
+//{
+//    Console.WriteLine(educationDTo.Name);
+//}
 
 
 //foreach (var education in educations)

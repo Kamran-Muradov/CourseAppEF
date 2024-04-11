@@ -8,7 +8,6 @@
         DeleteEducation,
         GetAllEducations,
         GetAllEducationsWithGroups,
-        GetAllStudentsByGroupId,
         GetEducationById,
         SortEducationsWithCreatedDate,
         SearchEducationsByName,
