@@ -14,7 +14,7 @@ namespace CourseAppEF.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
-        public static bool IsLoggedIn { get; set; }
+        public bool IsLoggedIn { get; set; }
 
         public AccountController()
         {
@@ -28,16 +28,15 @@ namespace CourseAppEF.Controllers
             {
                 var allUsers = await _userService.GetAllAsync();
 
-                ConsoleColor.Yellow.WriteConsole("Enter full name:");
+                ConsoleColor.Yellow.WriteConsole("Enter full name (Press Enter to cancel):");
             FullName: string fullName = Console.ReadLine().Trim();
 
                 if (string.IsNullOrEmpty(fullName))
                 {
-                    ConsoleColor.Red.WriteConsole("Full name is required");
-                    goto FullName;
+                    return;
                 }
 
-                if (!Regex.IsMatch(fullName, @"^[\p{L}]+(?:\s[\p{L}]+)?$"))
+                if (!fullName.Contains(' ') || !Regex.IsMatch(fullName, @"^[\p{L}]+(?:\s[\p{L}]+)?$"))
                 {
                     ConsoleColor.Red.WriteConsole(ResponseMessages.InvalidFullNameFormat);
                     goto FullName;
@@ -49,6 +48,12 @@ namespace CourseAppEF.Controllers
                 if (string.IsNullOrEmpty(userName))
                 {
                     ConsoleColor.Red.WriteConsole("Username is required");
+                    goto UserName;
+                }
+
+                if (userName.Contains(' '))
+                {
+                    ConsoleColor.Red.WriteConsole("Username cannot contain white space");
                     goto UserName;
                 }
 

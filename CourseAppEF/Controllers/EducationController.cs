@@ -345,7 +345,7 @@ namespace CourseAppEF.Controllers
 
                 foreach (var item in response)
                 {
-                    table.AddRow(item.Name, item.Color, item.CreatedDate);
+                    table.AddRow(item.Name, item.Color, item.CreatedDate.ToShortDateString());
                 }
 
                 table.Options.EnableCount = false;

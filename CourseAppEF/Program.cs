@@ -10,9 +10,13 @@ AnsiConsole.Write(
         .Centered()
         .Color(Color.DarkOliveGreen1));
 
-Top: AccountController accountController = new();
+AccountController accountController = new();
 
-while (!AccountController.IsLoggedIn)
+EducationController educationController = new();
+
+GroupController groupController = new();
+
+Top: while (!accountController.IsLoggedIn)
 {
 Operation: ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
                                 "+--------------------------------------" + "------------------+\n" +
@@ -35,8 +39,7 @@ Operation: ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
 
             case 2:
                 await accountController.RegisterAsync();
-                goto Operation;
-
+                break;
             default:
                 ConsoleColor.Red.WriteConsole("Operation is wrong, please try again");
                 goto Operation;
@@ -49,9 +52,6 @@ Operation: ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
     }
 }
 
-EducationController educationController = new();
-
-GroupController groupController = new();
 
 while (true)
 {
@@ -143,7 +143,7 @@ Operation: ShowMenu();
                     case "n":
                         goto Operation;
                     case "y":
-                        AccountController.IsLoggedIn = false;
+                        accountController.IsLoggedIn = false;
                         goto Top;
                     default:
                         ConsoleColor.Red.WriteConsole("Wrong operation. Please try again:");
