@@ -29,7 +29,8 @@ namespace CourseAppEF.Controllers
                 var allUsers = await _userService.GetAllAsync();
 
                 ConsoleColor.Yellow.WriteConsole("Enter full name (Press Enter to cancel):");
-            FullName: string fullName = Console.ReadLine().Trim();
+            FullName:
+                string fullName = Console.ReadLine().Trim();
 
                 if (string.IsNullOrEmpty(fullName))
                 {
@@ -43,7 +44,8 @@ namespace CourseAppEF.Controllers
                 }
 
                 ConsoleColor.Yellow.WriteConsole("Enter username:");
-            UserName: string userName = Console.ReadLine().Trim();
+            UserName:
+                string userName = Console.ReadLine().Trim();
 
                 if (string.IsNullOrEmpty(userName))
                 {
@@ -64,7 +66,8 @@ namespace CourseAppEF.Controllers
                 }
 
                 ConsoleColor.Yellow.WriteConsole("Enter email:");
-            Email: string email = Console.ReadLine().Trim().ToLower();
+            Email:
+                string email = Console.ReadLine().Trim().ToLower();
 
                 if (string.IsNullOrEmpty(email))
                 {
@@ -85,11 +88,17 @@ namespace CourseAppEF.Controllers
                 }
 
                 ConsoleColor.Yellow.WriteConsole("Enter password:");
-            Password: string password = Console.ReadLine().Trim();
+            Password: string password = Console.ReadLine();
 
                 if (string.IsNullOrEmpty(password))
                 {
                     ConsoleColor.Red.WriteConsole("Password is required");
+                    goto Password;
+                }
+
+                if (password.Contains(' '))
+                {
+                    ConsoleColor.Red.WriteConsole("Password cannot contain white space");
                     goto Password;
                 }
 
@@ -109,6 +118,15 @@ namespace CourseAppEF.Controllers
                 {
                     ConsoleColor.Red.WriteConsole("Password must contain at least 8 characters");
                     goto Password;
+                }
+
+                ConsoleColor.Yellow.WriteConsole("Confirm password:");
+            ConfirmPassword: string confirmPassword = Console.ReadLine();
+
+                if (confirmPassword != password)
+                {
+                    ConsoleColor.Red.WriteConsole("Passwords do not match");
+                    goto ConfirmPassword;
                 }
 
                 await _accountService.RegisterAsync(new User
@@ -131,7 +149,8 @@ namespace CourseAppEF.Controllers
         public async Task LoginAsync()
         {
             ConsoleColor.Yellow.WriteConsole("Enter username or email (Press Enter to cancel):");
-        UserNameOrEmail: string userNameOrEmail = Console.ReadLine().Trim();
+        UserNameOrEmail:
+            string userNameOrEmail = Console.ReadLine().Trim();
 
             if (string.IsNullOrEmpty(userNameOrEmail))
             {
@@ -139,7 +158,8 @@ namespace CourseAppEF.Controllers
             }
 
             ConsoleColor.Yellow.WriteConsole("Enter password:");
-        Password: string password = Console.ReadLine().Trim();
+        Password:
+            string password = ReadPassword();
 
             if (string.IsNullOrEmpty(password))
             {
@@ -166,6 +186,36 @@ namespace CourseAppEF.Controllers
             {
                 ConsoleColor.Red.WriteConsole(ex.Message);
             }
+        }
+
+        public static string ReadPassword()
+        {
+            string password = "";
+            ConsoleKeyInfo info = Console.ReadKey(true);
+            while (info.Key != ConsoleKey.Enter)
+            {
+                if (info.Key != ConsoleKey.Backspace)
+                {
+                    Console.Write("*");
+                    password += info.KeyChar;
+                }
+                else if (info.Key == ConsoleKey.Backspace)
+                {
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        password = password.Substring(0, password.Length - 1);
+                        int pos = Console.CursorLeft;
+                        Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                        Console.Write(" ");
+                        Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                    }
+                }
+                info = Console.ReadKey(true);
+            }
+
+            Console.WriteLine();
+
+            return password;
         }
     }
 }

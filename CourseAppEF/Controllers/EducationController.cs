@@ -113,7 +113,13 @@ namespace CourseAppEF.Controllers
                 }
 
                 ConsoleColor.Yellow.WriteConsole("Enter name (Press Enter if you don't want to change):");
-                string updatedName = Console.ReadLine().Trim();
+            UpdatedName: string updatedName = Console.ReadLine().Trim();
+
+                if (allEducations.Any(m => m.Name.ToLower() == updatedName.ToLower()))
+                {
+                    ConsoleColor.Red.WriteConsole("Education with this name already exists");
+                    goto UpdatedName;
+                }
 
                 ConsoleColor.Yellow.WriteConsole("Enter color (Press Enter if you don't want to change):");
                 string updatedColor = Console.ReadLine().Trim();

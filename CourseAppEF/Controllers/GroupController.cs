@@ -167,7 +167,13 @@ namespace CourseAppEF.Controllers
             }
 
             ConsoleColor.Yellow.WriteConsole("Enter name (Press Enter if you don't want to change):");
-            string updatedName = Console.ReadLine().Trim();
+        UpdatedName: string updatedName = Console.ReadLine().Trim();
+
+            if (allGroups.Any(m => m.Name.ToLower() == updatedName.ToLower()))
+            {
+                ConsoleColor.Red.WriteConsole("Group with this name already exists");
+                goto UpdatedName;
+            }
 
             ConsoleColor.Yellow.WriteConsole("Enter capacity (Press Enter if you don't want to change):");
         Age: string updatedCapacityStr = Console.ReadLine();
