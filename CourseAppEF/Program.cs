@@ -10,6 +10,7 @@ AnsiConsole.Write(
         .Centered()
         .Color(Color.DarkOliveGreen1));
 
+
 AccountController accountController = new();
 
 EducationController educationController = new();

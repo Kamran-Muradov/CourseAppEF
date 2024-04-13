@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Domain.Models;
+using Service.DTOs.Users;
 using Service.Helpers.Constants;
 using Service.Helpers.Extensions;
 using Service.Services;
@@ -129,13 +130,12 @@ namespace CourseAppEF.Controllers
                     goto ConfirmPassword;
                 }
 
-                await _accountService.RegisterAsync(new User
+                await _accountService.RegisterAsync(new UserCreateDTo
                 {
                     FullName = fullName,
                     UserName = userName,
                     Email = email,
                     Password = password,
-                    CreatedDate = DateTime.Now
                 });
 
                 ConsoleColor.Green.WriteConsole("Register is successful");

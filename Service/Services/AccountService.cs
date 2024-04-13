@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Repository.Repositories;
 using Repository.Repositories.Interfaces;
+using Service.DTOs.Users;
 using Service.Services.Interfaces;
 
 namespace Service.Services
@@ -14,11 +15,18 @@ namespace Service.Services
             _userRepository = new UserRepository();
         }
 
-        public async Task RegisterAsync(User data)
+        public async Task RegisterAsync(UserCreateDTo data)
         {
             ArgumentNullException.ThrowIfNull(data);
 
-            await _userRepository.CreateAsync(data);
+            await _userRepository.CreateAsync(new User
+            {
+                FullName = data.FullName,
+                UserName = data.UserName,
+                Email = data.Email,
+                Password = data.Password,
+                CreatedDate = DateTime.Now
+            });
         }
 
         public async Task<bool> LoginAsync(string usernameOrEmail, string password)

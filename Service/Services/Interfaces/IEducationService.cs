@@ -1,5 +1,4 @@
-﻿using Domain.Models;
-using Service.DTOs.Educations;
+﻿using Service.DTOs.Educations;
 
 namespace Service.Services.Interfaces
 {
