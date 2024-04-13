@@ -8,8 +8,6 @@ namespace Repository.Repositories.Interfaces
         Task DeleteAsync(T entity);
         Task UpdateAsync(T entity);
         Task<List<T>> GetAllAsync();
-        IQueryable<T> GetALl();
         Task<T> GetByIdAsync(int? id);
-
     }
 }

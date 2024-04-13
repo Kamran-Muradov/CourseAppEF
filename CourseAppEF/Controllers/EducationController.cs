@@ -52,11 +52,10 @@ namespace CourseAppEF.Controllers
                     goto Color;
                 }
 
-                await _educationService.CreateAsync(new Education
+                await _educationService.CreateAsync(new EducationCreateDTo
                 {
                     Name = name,
                     Color = color,
-                    CreatedDate = DateTime.Now
                 });
 
                 ConsoleColor.Green.WriteConsole(ResponseMessages.AddSuccess);
@@ -124,7 +123,7 @@ namespace CourseAppEF.Controllers
                 ConsoleColor.Yellow.WriteConsole("Enter color (Press Enter if you don't want to change):");
                 string updatedColor = Console.ReadLine().Trim();
 
-                await _educationService.UpdateAsync(new Education
+                await _educationService.UpdateAsync(new EducationUpdateDTo
                 { Id = id, Name = updatedName, Color = updatedColor });
 
                 ConsoleColor.Green.WriteConsole(ResponseMessages.UpdateSuccess);
@@ -180,7 +179,7 @@ namespace CourseAppEF.Controllers
                     return;
                 }
 
-                Console.WriteLine("Are you sure you want to delete this student? (Press 'Y' for yes, 'N' for no)");
+                Console.WriteLine("Are you sure you want to delete this education? (Press 'Y' for yes, 'N' for no)");
             DeleteChoice: string deleteChoice = Console.ReadLine().Trim().ToLower();
 
                 switch (deleteChoice)

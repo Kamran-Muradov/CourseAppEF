@@ -107,12 +107,11 @@ namespace CourseAppEF.Controllers
                     goto EducationId;
                 }
 
-                await _groupService.CreateAsync(new Group
+                await _groupService.CreateAsync(new GroupCreateDTo
                 {
                     Name = name,
                     Capacity = capacity,
                     EducationId = educationId,
-                    CreatedDate = DateTime.Now
                 });
 
                 ConsoleColor.Green.WriteConsole(ResponseMessages.AddSuccess);
@@ -225,7 +224,7 @@ namespace CourseAppEF.Controllers
                 }
             }
 
-            await _groupService.UpdateAsync(new Group
+            await _groupService.UpdateAsync(new GroupUpdateDTo
             {
                 Id = id,
                 Name = updatedName,
@@ -252,7 +251,7 @@ namespace CourseAppEF.Controllers
 
                 allGroups.PrintAllWithId();
 
-                ConsoleColor.Yellow.WriteConsole("Enter id of the education you want to delete: (Press Enter to cancel)");
+                ConsoleColor.Yellow.WriteConsole("Enter id of the group you want to delete: (Press Enter to cancel)");
             Id: string idStr = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(idStr))
@@ -281,7 +280,7 @@ namespace CourseAppEF.Controllers
                     return;
                 }
 
-                Console.WriteLine("Are you sure you want to delete this student? (Press 'Y' for yes, 'N' for no)");
+                Console.WriteLine("Are you sure you want to delete this group? (Press 'Y' for yes, 'N' for no)");
             DeleteChoice: string deleteChoice = Console.ReadLine().Trim().ToLower();
 
                 switch (deleteChoice)

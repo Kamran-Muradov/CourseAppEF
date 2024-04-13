@@ -17,14 +17,20 @@ namespace Service.Services
             _groupRepository = new GroupRepository();
         }
 
-        public async Task CreateAsync(Group data)
+        public async Task CreateAsync(GroupCreateDTo data)
         {
             ArgumentNullException.ThrowIfNull(data);
 
-            await _groupRepository.CreateAsync(data);
+            await _groupRepository.CreateAsync(new Group
+            {
+                Name = data.Name,
+                Capacity = data.Capacity,
+                EducationId = data.EducationId,
+                CreatedDate = DateTime.Now
+            });
         }
 
-        public async Task UpdateAsync(Group data)
+        public async Task UpdateAsync(GroupUpdateDTo data)
         {
             ArgumentNullException.ThrowIfNull(data);
 

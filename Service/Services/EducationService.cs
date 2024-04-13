@@ -17,14 +17,19 @@ namespace Service.Services
             _educationRepository = new EducationRepository();
         }
 
-        public async Task CreateAsync(Education data)
+        public async Task CreateAsync(EducationCreateDTo data)
         {
             ArgumentNullException.ThrowIfNull(data);
 
-            await _educationRepository.CreateAsync(data);
+            await _educationRepository.CreateAsync(new Education
+            {
+                Name = data.Name,
+                Color = data.Color,
+                CreatedDate = DateTime.Now
+            });
         }
 
-        public async Task UpdateAsync(Education data)
+        public async Task UpdateAsync(EducationUpdateDTo data)
         {
             ArgumentNullException.ThrowIfNull(data);
 

@@ -37,11 +37,6 @@ namespace Repository.Repositories
             return await Context.Set<T>().ToListAsync();
         }
 
-        public IQueryable<T> GetALl()
-        {
-            return Context.Set<T>();
-        }
-
         public async Task<T> GetByIdAsync(int? id)
         {
             return await Context.Set<T>().FirstOrDefaultAsync(m => m.Id == id);

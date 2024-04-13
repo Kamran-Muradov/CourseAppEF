@@ -9,6 +9,6 @@ namespace Domain.Models
         public string Name { get; set; }
         [MaxLength(50)]
         public string Color { get; set; }
-        public List<Group> Groups { get; set; }
+        public ICollection<Group> Groups { get; set; }
     }
 }
