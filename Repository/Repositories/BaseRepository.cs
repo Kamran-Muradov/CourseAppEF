@@ -42,13 +42,6 @@ namespace Repository.Repositories
             return Context.Set<T>();
         }
 
-        //public async Task<List<T>> GetAllWithExpression(Func<T, bool> predicate)
-        //{
-        //    var datas = await _context.Set<T>().ToListAsync();
-
-        //    return datas.Where(predicate).ToList();
-        //}
-
         public async Task<T> GetByIdAsync(int? id)
         {
             return await Context.Set<T>().FirstOrDefaultAsync(m => m.Id == id);

@@ -7,5 +7,6 @@ namespace Repository.Repositories.Interfaces
         Task<List<Group>> GetAllWithEducationIdAsync(int? id);
         Task<List<Group>> FilterByEducationNameAsync(string name);
 
+
     }
 }

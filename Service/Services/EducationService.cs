@@ -76,30 +76,33 @@ namespace Service.Services
         {
             ArgumentNullException.ThrowIfNull(sortCondition);
 
-            var datas = await _educationRepository.GetAllAsync();
+            var datas = await _educationRepository.SortWithCreatedDateAsync(sortCondition);
 
-            var educations = datas.Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
-                .ToList();
-
-            switch (sortCondition)
+            if (datas is null)
             {
-                case "asc":
-                    return educations.OrderBy(m => m.CreatedDate).ToList();
-                case "desc":
-                    return educations.OrderByDescending(m => m.CreatedDate).ToList();
-                default:
-                    throw new FormatException(ResponseMessages.InvalidSortingFormat);
+                throw new FormatException(ResponseMessages.InvalidSortingFormat);
             }
+
+            return datas.Select(m => new EducationDTo
+            {
+                Name = m.Name,
+                Color = m.Color,
+                CreatedDate = m.CreatedDate
+            }).ToList();
         }
 
         public async Task<List<EducationDTo>> SearchByNameAsync(string searchText)
         {
             ArgumentNullException.ThrowIfNull(searchText);
 
-            var datas = await _educationRepository.GetAllAsync();
+            var datas = await _educationRepository.SearchByNameAsync(searchText);
+
+            if (datas.Count == 0)
+            {
+                throw new NotFoundException(ResponseMessages.DataNotFound);
+            }
 
             var foundEducations = datas
-            .Where(m => m.Name.ToLower().Contains(searchText.ToLower()))
             .Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
             .ToList();
 
