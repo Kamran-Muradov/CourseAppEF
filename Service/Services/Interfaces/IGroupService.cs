@@ -11,8 +11,8 @@ namespace Service.Services.Interfaces
         Task<List<GroupDTo>> GetAllAsync();
         Task<List<GroupDTo>> GetAllWithEducationIdAsync(int? id);
         Task<List<GroupDTo>> FilterByEducationNameAsync(string name);
-        Task<List<GroupDTo>> SearchByNameAsync(string searchText);
         Task<List<GroupDTo>> SortWithCapacityAsync(string sortCondition);
+        Task<List<GroupDTo>> SearchByNameAsync(string searchText);
         Task<GroupDTo> GetByIdAsync(int? id);
     }
 }

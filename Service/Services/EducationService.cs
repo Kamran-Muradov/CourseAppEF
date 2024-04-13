@@ -56,7 +56,14 @@ namespace Service.Services
         {
             var datas = await _educationRepository.GetAllAsync();
 
-            return datas.Select(m => new EducationDTo { Id = m.Id, Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
+            return datas
+                .Select(m => new EducationDTo
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Color = m.Color,
+                    CreatedDate = m.CreatedDate
+                })
                 .ToList();
         }
 
@@ -64,11 +71,12 @@ namespace Service.Services
         {
             var datas = await _educationRepository.GetAllWithGroupsAsync();
 
-            return datas.Select(m => new EducationWithGroupsDTo
-            {
-                Education = m.Name,
-                Groups = m.Groups.Select(m => m.Name).ToList()
-            })
+            return datas
+                .Select(m => new EducationWithGroupsDTo
+                {
+                    Education = m.Name,
+                    Groups = m.Groups.Select(m => m.Name).ToList()
+                })
                 .ToList();
         }
 
@@ -83,30 +91,35 @@ namespace Service.Services
                 throw new FormatException(ResponseMessages.InvalidSortingFormat);
             }
 
-            return datas.Select(m => new EducationDTo
-            {
-                Name = m.Name,
-                Color = m.Color,
-                CreatedDate = m.CreatedDate
-            }).ToList();
+            return datas
+                .Select(m => new EducationDTo
+                {
+                    Name = m.Name,
+                    Color = m.Color,
+                    CreatedDate = m.CreatedDate
+                })
+                .ToList();
         }
 
         public async Task<List<EducationDTo>> SearchByNameAsync(string searchText)
         {
             ArgumentNullException.ThrowIfNull(searchText);
 
-            var datas = await _educationRepository.SearchByNameAsync(searchText);
+            var foundDatas = await _educationRepository.SearchByNameAsync(searchText);
 
-            if (datas.Count == 0)
+            if (foundDatas.Count == 0)
             {
                 throw new NotFoundException(ResponseMessages.DataNotFound);
             }
 
-            var foundEducations = datas
-            .Select(m => new EducationDTo { Name = m.Name, Color = m.Color, CreatedDate = m.CreatedDate })
+            return foundDatas
+            .Select(m => new EducationDTo
+            {
+                Name = m.Name,
+                Color = m.Color,
+                CreatedDate = m.CreatedDate
+            })
             .ToList();
-
-            return foundEducations;
         }
 
         public async Task<EducationDTo> GetByIdAsync(int? id)

@@ -18,5 +18,26 @@ namespace Repository.Repositories
                 .Where(m => m.Education.Name.ToLower() == name.ToLower())
                 .ToListAsync();
         }
+
+        public async Task<List<Group>> SortWithCapacityAsync(string sortCondition)
+        {
+            switch (sortCondition)
+            {
+                case "asc":
+                    return await Context.Set<Group>().OrderBy(m => m.Capacity).ToListAsync();
+                case "desc":
+                    return await Context.Set<Group>().OrderByDescending(m => m.Capacity).ToListAsync();
+                default:
+                    return null;
+            }
+        }
+
+        public async Task<List<Group>> SearchByNameAsync(string searchText)
+        {
+            return await Context.Set<Group>().Where(m => m.Name.ToLower().Contains(searchText.ToLower()))
+                .ToListAsync();
+        }
+
+        
     }
 }

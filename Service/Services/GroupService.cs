@@ -98,14 +98,18 @@ namespace Service.Services
             }).ToList();
         }
 
-        public async Task<List<GroupDTo>> SearchByNameAsync(string searchText)
+        public async Task<List<GroupDTo>> SortWithCapacityAsync(string sortCondition)
         {
-            ArgumentNullException.ThrowIfNull(searchText);
+            ArgumentNullException.ThrowIfNull(sortCondition);
 
-            var datas = await _groupRepository.GetAllAsync();
+            var datas = await _groupRepository.SortWithCapacityAsync(sortCondition);
 
-            var foundGroups = datas
-                .Where(m => m.Name.ToLower().Contains(searchText.ToLower()))
+            if (datas is null)
+            {
+                throw new FormatException(ResponseMessages.InvalidSortingFormat);
+            }
+
+            return datas
                 .Select(m => new GroupDTo
                 {
                     Name = m.Name,
@@ -113,32 +117,27 @@ namespace Service.Services
                     EducationId = m.EducationId
                 })
                 .ToList();
-
-            return foundGroups;
         }
 
-        public async Task<List<GroupDTo>> SortWithCapacityAsync(string sortCondition)
+        public async Task<List<GroupDTo>> SearchByNameAsync(string searchText)
         {
-            ArgumentNullException.ThrowIfNull(sortCondition);
+            ArgumentNullException.ThrowIfNull(searchText);
 
-            var datas = await _groupRepository.GetAllAsync();
+            var foundDatas = await _groupRepository.SearchByNameAsync(searchText);
 
-            var groups = datas.Select(m => new GroupDTo
+            if (foundDatas.Count == 0)
             {
-                Name = m.Name,
-                Capacity = m.Capacity,
-                EducationId = m.EducationId
-            }).ToList();
-
-            switch (sortCondition)
-            {
-                case "asc":
-                    return groups.OrderBy(m => m.Capacity).ToList();
-                case "desc":
-                    return groups.OrderByDescending(m => m.Capacity).ToList();
-                default:
-                    throw new FormatException(ResponseMessages.InvalidSortingFormat);
+                throw new NotFoundException(ResponseMessages.DataNotFound);
             }
+
+            return foundDatas
+                .Select(m => new GroupDTo
+                {
+                    Name = m.Name,
+                    Capacity = m.Capacity,
+                    EducationId = m.EducationId
+                })
+                .ToList();
         }
 
         public async Task<GroupDTo> GetByIdAsync(int? id)
