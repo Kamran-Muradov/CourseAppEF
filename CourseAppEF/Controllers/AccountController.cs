@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Domain.Models;
 using Service.DTOs.Users;
 using Service.Helpers.Constants;
 using Service.Helpers.Extensions;
@@ -109,9 +108,9 @@ namespace CourseAppEF.Controllers
                     goto Password;
                 }
 
-                if (!Regex.IsMatch(password, @"\p{Lu}\p{Ll}?\d*"))
+                if (!Regex.IsMatch(password, "[a-z]") || !Regex.IsMatch(password, "[A-Z]"))
                 {
-                    ConsoleColor.Red.WriteConsole("Password must contain at least one uppercase letter");
+                    ConsoleColor.Red.WriteConsole("Password must contain at least one uppercase and one lowercase letter");
                     goto Password;
                 }
 

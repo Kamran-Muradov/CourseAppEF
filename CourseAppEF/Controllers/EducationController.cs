@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ConsoleTables;
-using Domain.Models;
 using Service.DTOs.Educations;
 using Service.Helpers.Constants;
 using Service.Helpers.Extensions;
@@ -331,32 +330,26 @@ namespace CourseAppEF.Controllers
                     return;
                 }
 
-                List<EducationDTo> response;
-
-                switch (sortCondition)
+                if (sortCondition is "asc" or "desc")
                 {
-                    case "asc":
-                        response = await _educationService.SortWithCreatedDateAsync(sortCondition);
-                        break;
-                    case "desc":
-                        response = await _educationService.SortWithCreatedDateAsync(sortCondition);
-                        break;
-                    default:
-                        ConsoleColor.Red.WriteConsole(ResponseMessages.InvalidSortingFormat + ". Please try again:");
-                        goto SortCondition;
+                    var response = await _educationService.SortWithCreatedDateAsync(sortCondition);
+
+                    var table = new ConsoleTable("Name", "Color", "Create date");
+
+                    foreach (var item in response)
+                    {
+                        table.AddRow(item.Name, item.Color, item.CreatedDate.ToShortDateString());
+                    }
+
+                    table.Options.EnableCount = false;
+
+                    table.Write();
                 }
-
-                var table = new ConsoleTable("Name", "Color", "Create date");
-
-                foreach (var item in response)
+                else
                 {
-                    table.AddRow(item.Name, item.Color, item.CreatedDate.ToShortDateString());
+                    ConsoleColor.Red.WriteConsole(ResponseMessages.InvalidSortingFormat + ". Please try again:");
+                    goto SortCondition;
                 }
-
-                table.Options.EnableCount = false;
-
-                table.Write();
-
             }
             catch (Exception ex)
             {

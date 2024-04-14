@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace Service.DTOs.Groups
 {
     public class GroupCreateDTo
