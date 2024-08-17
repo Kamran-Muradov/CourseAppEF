@@ -33,7 +33,7 @@ namespace Service.Services
         {
             var datas = await _userRepository.GetAllAsync();
 
-            return datas.Any(m => (m.UserName.ToLower() == usernameOrEmail.ToLower() || m.Email.ToLower() == usernameOrEmail.ToLower())
+            return datas.Any(m => (string.Equals(m.UserName, usernameOrEmail, StringComparison.CurrentCultureIgnoreCase) || string.Equals(m.Email, usernameOrEmail, StringComparison.CurrentCultureIgnoreCase))
                                   && m.Password == password);
         }
     }

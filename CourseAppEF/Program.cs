@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using CourseAppEF.Controllers;
 using Service.Helpers.Enums;
 using Service.Helpers.Extensions;
@@ -11,18 +10,23 @@ AnsiConsole.Write(
         .Color(Color.DarkOliveGreen1));
 
 
+
 AccountController accountController = new();
 
 EducationController educationController = new();
 
 GroupController groupController = new();
 
-Top: while (!accountController.IsLoggedIn)
+Console.WriteLine("test");
+
+Top:
+while (!accountController.IsLoggedIn)
 {
-Operation: ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
-                                "+--------------------------------------" + "------------------+\n" +
-                                "| 1. Login                 |" + "  2. Register                |\n" +
-                                "+--------------------------------------------------------+");
+    Operation:
+    ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
+                                   "+--------------------------------------" + "------------------+\n" +
+                                   "| 1. Login                 |" + "  2. Register                |\n" +
+                                   "+--------------------------------------------------------+");
 
     string operationStr = Console.ReadLine();
 
@@ -56,7 +60,8 @@ Operation: ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
 
 while (true)
 {
-Operation: ShowMenu();
+    Operation:
+    ShowMenu();
     string operationStr = Console.ReadLine();
 
     int operation;
@@ -137,7 +142,8 @@ Operation: ShowMenu();
 
             case (int)OperationType.Logout:
                 Console.WriteLine("Are you sure? (Press 'Y' for yes, 'N' for no)");
-            ExitChoice: string exitChoice = Console.ReadLine().Trim().ToLower();
+                ExitChoice:
+                string exitChoice = Console.ReadLine().Trim().ToLower();
 
                 switch (exitChoice)
                 {
@@ -166,17 +172,30 @@ Operation: ShowMenu();
 static void ShowMenu()
 {
     ConsoleColor.Cyan.WriteConsole("\nSelect one operation:\n\n" +
-                                   "+--------------------------------------" + "-----------------------------------------+\n" +
-                                   "| Education operations                |" + " Group operations                        |\n" +
-                                   "|-------------------------------------|" + "-----------------------------------------|\n" +
-                                   "| 1. Create education                 |" + "  9. Create group                        |\n" +
-                                   "| 2. Update education                 |" + " 10. Update group                        |\n" +
-                                   "| 3. Delete education                 |" + " 11. Delete group                        |\n" +
-                                   "| 4. Show all educations              |" + " 12. Show all groups                     |\n" +
-                                   "| 5. Show all educations with groups  |" + " 13. Show all groups by education id     |\n" +
-                                   "| 6. Show education by id             |" + " 14. Show group by id                    |\n" +
-                                   "| 7. Sort educations by create date   |" + " 15. Filter groups by education name     |\n" +
-                                   "| 8. Search educations by name        |" + " 16. Sort groups by capacity             |\n" +
-                                   "| 0. Log out                          |" + " 17. Search groups by name               |\n" +
+                                   "+--------------------------------------" +
+                                   "-----------------------------------------+\n" +
+                                   "| Education operations                |" +
+                                   " Group operations                        |\n" +
+                                   "|-------------------------------------|" +
+                                   "-----------------------------------------|\n" +
+                                   "| 1. Create education                 |" +
+                                   "  9. Create group                        |\n" +
+                                   "| 2. Update education                 |" +
+                                   " 10. Update group                        |\n" +
+                                   "| 3. Delete education                 |" +
+                                   " 11. Delete group                        |\n" +
+                                   "| 4. Show all educations              |" +
+                                   " 12. Show all groups                     |\n" +
+                                   "| 5. Show all educations with groups  |" +
+                                   " 13. Show all groups by education id     |\n" +
+                                   "| 6. Show education by id             |" +
+                                   " 14. Show group by id                    |\n" +
+                                   "| 7. Sort educations by create date   |" +
+                                   " 15. Filter groups by education name     |\n" +
+                                   "| 8. Search educations by name        |" +
+                                   " 16. Sort groups by capacity             |\n" +
+                                   "| 0. Log out                          |" +
+                                   " 17. Search groups by name               |\n" +
                                    "+-------------------------------------------------------------------------------+");
 }
+

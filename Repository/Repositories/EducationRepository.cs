@@ -18,7 +18,7 @@ namespace Repository.Repositories
             switch (sortCondition)
             {
                 case "asc":
-                    return await Context.Set<Education>().OrderBy(m=>m.CreatedDate).ToListAsync();
+                    return await Context.Set<Education>().OrderBy(m => m.CreatedDate).ToListAsync();
                 case "desc":
                     return await Context.Set<Education>().OrderByDescending(m => m.CreatedDate).ToListAsync();
                 default:

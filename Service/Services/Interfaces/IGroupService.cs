@@ -1,5 +1,4 @@
-﻿using Domain.Models;
-using Service.DTOs.Groups;
+﻿using Service.DTOs.Groups;
 
 namespace Service.Services.Interfaces
 {

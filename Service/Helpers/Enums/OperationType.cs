@@ -12,7 +12,7 @@
         SortEducationsWithCreatedDate,
         SearchEducationsByName,
         CreateGroup,
-        UpdateGroup, 
+        UpdateGroup,
         DeleteGroup,
         GetAllGroups,
         GetAllGroupsWithEducationId,
